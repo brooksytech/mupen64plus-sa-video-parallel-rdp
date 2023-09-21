@@ -55,3 +55,10 @@ add_library(${NAME_PLUGIN_SIMPLE64} SHARED
     vkguts.c
     parallel_imp.cpp
     wsi_platform.cpp)
+    
+target_include_directories(${NAME_PLUGIN_SIMPLE64} PUBLIC
+    parallel-rdp
+    volk
+    vulkan
+    vulkan-headers/include
+    util)
