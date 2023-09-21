@@ -55,37 +55,3 @@ add_library(${NAME_PLUGIN_SIMPLE64} SHARED
     vkguts.c
     parallel_imp.cpp
     wsi_platform.cpp)
-
-target_include_directories(${NAME_PLUGIN_SIMPLE64} PUBLIC
-    parallel-rdp
-    volk
-    vulkan
-    vulkan-headers/include
-    util)
-
-if(WIN32)
-    target_link_libraries(${NAME_PLUGIN_SIMPLE64} -lwinmm)
-endif()
-
-set_property(TARGET ${NAME_PLUGIN_SIMPLE64} PROPERTY C_VISIBILITY_PRESET hidden)
-set_property(TARGET ${NAME_PLUGIN_SIMPLE64} PROPERTY CXX_VISIBILITY_PRESET hidden)
-set_property(TARGET ${NAME_PLUGIN_SIMPLE64} PROPERTY VISIBILITY_INLINES_HIDDEN ON)
-target_compile_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -Ofast)
-target_link_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -Ofast)
-if (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    target_compile_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -march=armv8-a)
-    target_link_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -march=armv8-a)
-else()
-    target_compile_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -march=x86-64-v3)
-    target_link_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -march=x86-64-v3)
-endif()
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_link_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -fuse-ld=lld)
-endif()
-
-if (NOT APPLE AND NOT WIN32)
-    target_link_options(${NAME_PLUGIN_SIMPLE64} PRIVATE -Wl,-Bsymbolic -Wl,-Bsymbolic-functions)
-endif ()
-
-set_target_properties(${NAME_PLUGIN_SIMPLE64} PROPERTIES PREFIX "")
